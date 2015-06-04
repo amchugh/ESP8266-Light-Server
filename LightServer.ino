@@ -8,7 +8,6 @@
 
 const char* password = "teammchugh";
 const char* ssid     = "JKAK";
-// const char* ssid     = "TP-LINK_B30826";
 int lightStatus = 0; 
 
 ESP8266WebServer server(80);
@@ -1539,13 +1538,13 @@ void send_puppyfromxxd() {
 }
 
 bool buttonPressed = false;
-bool buttonStatus = true;
+bool buttonToggle = true;
 
 void button_page() {
-  if(buttonStatus == true) {
-    webString = "Button Status : ON";
+  if(buttonToggle == true) {
+    webString = "Button Toggle.  Current state: ON";
   } else {
-    webString = "Button Status : OFF";
+    webString = "Button Toggle.  Current state: OFF";
   } 
   server.send(200, "text/plain", webString);
   Serial.println("Handled Button Request :)");
@@ -1630,14 +1629,10 @@ void loop(void)
   } else {
     delay(5);
     button = digitalRead(16);
-    if( button == LOW && buttonPressed == true ) {
+    if( buttonPressed == true ) {
       Serial.println("The button is no longer pressed!");
-      if(buttonStatus == true) {
-        buttonStatus = false;
-      } else {
-        buttonStatus = true;
-      }
+      buttonToggle = !buttonToggle;
+      buttonPressed = false;
     } 
-    buttonPressed = false;
   }
 } 
